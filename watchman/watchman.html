@@ -1,0 +1,127 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="textarea-helper.js"></script>
+    <script type="text/javascript" src="speech-recognizer.js"></script>
+</head>
+
+
+<body>
+    <div id="main">
+        <div id="content">
+            <h1 id="about">Watchman</h1>
+		<form>
+			<input type="button" value="Click to Speak" class="startButton">	
+			<input type="button" value="Click to Stop" class="stopButton">
+		</form>
+            <div id="example-type">textarea with JavaScript Web Speech API</div>
+		<h3>Say: "My name is (your name)"</h3>
+            <div id="speech-content-elements">
+                <textarea id="speech-page-content" name="pageContent"></textarea>
+
+            </div>
+	
+		<h1 id="dataBase">Enter your names below</h1>
+
+
+		<form>
+			<input type="text" name="friend" id="friend">
+			<button type="button" value='Hello' id='submit' style="width:100px;height:25px;">Submit</button><br><br>
+
+	
+			<input type="button" name="checkFriends" id="checkFriends" value="See My Friends">
+		</form>
+		<br><br>
+	<!--	<button type="button" value="Random Button" onclick="submit()"></button>-->
+		<textarea rows="10" columns="100" id="myFriends" name="listFriends"></textarea>
+            <div id="authority">by
+                <a href="http://stiltsoft.com/" target="_blank">StiltSoft</a>
+            </div>
+        </div>
+    </div>
+</body>
+	<script type="text/javascript">
+
+	console.log('do we even enter this script?');
+
+	var myFriends = new Array();
+	var counter = 0;
+
+	var subButton = document.getElementById('submit');
+	var checkFriends = document.getElementById('checkFriends');
+
+
+	checkFriends.onclick=function()
+	{
+		var friendBox = document.getElementById('myFriends');
+
+		for(var i = 0;i<myFriends.length;i++)
+		{
+
+			friendBox.value += myFriends[i] + "\n";
+		}
+	}	
+	
+	subButton.onclick=function()
+	{
+		var friend = document.getElementById("friend");
+		var name = friend.value;		
+		myFriends[counter] = name;
+		counter += 1;
+		clearContents(friend);
+		console.log(myFriends);
+		
+		
+	};
+
+	function extractName(input)
+	{
+
+	
+		//my name is /
+		var output = input.slice(11,input.length);
+
+
+		return output;
+	}
+
+	function findMatch(input)
+	{
+		console.log('in find match');
+		for(var i = 0; i < myFriends.length; i++)
+		{
+			console.log(input);
+			if(input == myFriends[i])
+				return true;
+		}
+
+		return false;
+	}	
+	
+	function approve(name)
+	{
+	
+		var data = {
+			api_user:"nikhil-shenoy",
+			api_key:"l1i2h5k1i5n8",
+			to:"nikhil_shenoy10@yahoo.com",
+			subject:'You have a visitor',
+			text:'Your friend ' + name + ' has arrived!',
+			from:"lol@lol.com"
+		};
+		$.ajax({type: "GET", url: 'https://sendgrid.com/api/mail.send.json', data: data, error: function (e) {console.log(e);}, dataType: "jsonp"});
+	}
+
+	function reject()
+	{
+		console.log('reject is now defined');
+	}
+
+	function clearContents(element)
+	{
+		element.value = '';
+	};
+
+	</script>
+	</html>
