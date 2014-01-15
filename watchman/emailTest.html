@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<textarea id="myText">Lorem ipsum...</textarea>
+	<button onclick="sendMail(); return false">Send</button>
+
+</body>
+
+	<script type="text/javascript">	
+		function sendMail()
+		{
+			var link = "mailto:nikhil_shenoy10@yahoo.com" + "&subject=JavaScript test email" + escape("This is my subject") + "&body=Hello there! Does this work?" + escape(document.getElementById('myText').value);
+
+			window.location.href=link;
+		}
+
+	</script>
+</html>
